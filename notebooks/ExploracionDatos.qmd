@@ -1,0 +1,183 @@
+---
+title: "Exploración de datos"
+author: "Sofía Zorrilla"
+format: html
+html-table-processing: none
+editor: visual
+---
+
+El dataset de este notebook fue tomado de:
+
+[Gorman et al., 2014](https://doi.org/10.1371/journal.pone.0090081 "Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis)")
+
+```{r}
+#| label: load-libraries
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(palmerpenguins)
+library(patchwork)
+library(ggrepel)
+library(GGally)
+library(kableExtra)
+```
+
+Existen tres especies de pingüinos en la antártica:
+
+| *P. adelie* | *P. chinstrap* | *P. gentoo* |
+|------------------------|------------------------|------------------------|
+| ![P. adelie](https://upload.wikimedia.org/wikipedia/commons/e/e3/Hope_Bay-2016-Trinity_Peninsula%E2%80%93Ad%C3%A9lie_penguin_%28Pygoscelis_adeliae%29_04.jpg) | ![P. Chinstrap](https://upload.wikimedia.org/wikipedia/commons/0/08/South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg) | ![](https://upload.wikimedia.org/wikipedia/commons/e/eb/Gentoo_penguin.jpg) |
+
+: Especies de pingüinos muestreadas en el estudio.
+
+## Cargamos los datos
+
+-   Coordenadas obtenidas a partir del artículo original (<https://doi.org/10.1371/journal.pone.0090081)>
+
+```{r}
+#| label: load-data
+data("penguins")
+
+head(penguins)
+summary(penguins$species)
+summary(penguins$island)
+
+coordinates <- data.frame(
+  Island = c("Biscoe\nIsland", "Torgersen\nIsland", "Dream Island"),
+  Latitude = c(-64.800, -64.767, -64.717),
+  Longitude = c(-63.767, -64.067, -64.217)
+)
+
+```
+
+-   Se tomaron `{r} nrow(penguins)` muestras de `{r} length(unique(penguins$species))` especies en `{r} length(unique(penguins$island))` islas
+
+El volúmen de los pingüinos fue estimado mediante:
+
+$$
+V = \pi r^2 A 
+$$ {#eq-volumen}
+
+De acuerdo a [Ecuación @eq-volumen] los pingüinos son cilíndricos. El valor $A$ es la altura del pingüino.
+
+## Figura 1. Mapa de puntos de muestreo
+
+```{r}
+#| label: fig-mapa-distribucion
+# Get Antarctica and nearby islands data
+antarctica <- ne_countries(scale = "medium", continent = "antarctica", returnclass = "sf")
+
+# Main map (Antarctica)
+main_map <- ggplot(data = antarctica) +
+  geom_sf(fill = "gray90", color = "black") +
+  theme_minimal() +
+  geom_rect(
+    xmin = -64.5, xmax = -63, ymin = -65, ymax = -64.2,
+    color = "black", fill = NA, linewidth = 0.5
+  ) +
+  labs(title = "Sampling Sites in the Palmer Archipelago", x = "Longitude", y = "Latitude") +
+  coord_sf(xlim = c(-95, -28), ylim = c(-78, -60)) +
+  theme(
+    axis.text = element_text(size = 8),
+    plot.title = element_text(size = 12)
+  )
+
+# Inset map (Palmer Archipelago region)
+inset_map <- ggplot(data = antarctica) +
+  geom_sf(fill = "gray90", color = "black") +
+  geom_point(data = coordinates, aes(x = Longitude, y = Latitude, color = Island), size = 3) +
+  geom_text_repel(data = coordinates, aes(x = Longitude, y = Latitude, label = Island), 
+            hjust = -0.1, vjust = 0.5, size = 3) +
+  theme_bw()+
+  theme(legend.position = "none",
+        axis.text = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.title = element_blank(),
+        panel.border = element_rect(color = 'black', size = 1),
+        panel.grid = element_blank()) +
+  coord_sf(xlim = c(-64.5, -63), ylim = c(-65, -64.4)) +
+  labs(x = "Longitude", y = "Latitude")
+
+# Combine the main and inset map
+main_map +
+  inset_element(inset_map,  left = 0.55,    # Start near the right side
+                bottom = 0.10,  # Start close to the bottom
+                right = 0.99,   # End near the right edge
+                top = 0.75,      # End partway up from the bottom
+                align_to = 'full')
+
+```
+
+En la @fig-mapa-distribucion se pueden ver los puntos de muestreo.
+
+En la @tbl-sampling se pueden ver la distribución de muestras por sexo mostrada en [Figura @fig-mapa-distribucion]
+
+## Tamaño de muestreo (tabla para el artículo)
+
+```{r}
+#| label: tbl-sampling
+# Sampling size
+levels(penguins$sex) <- c("female", "male","Unkn.")
+levels(penguins$species) <- c("P. adelie", "P. chinstrap", "P. gentoo")
+penguins$sex[is.na(penguins$sex)] <- "Unkn."
+
+library(kableExtra)
+
+penguins %>% 
+  # Summarize data by species, island, and sex
+  summarise(n = n(), .by = c(species, island, sex)) %>% 
+  
+  # Convert count to character to allow empty string
+  mutate(n = as.character(n)) %>% 
+  
+  # Reshape data to wide format
+  pivot_wider(
+    id_cols = c(species, island), 
+    names_from = sex, 
+    values_from = n, 
+    values_fill = list(n = "")
+  ) %>% 
+  
+  # Create kable table
+  kbl(
+    caption = "Summary of Penguin Counts by Species, Island, and Sex", 
+    col.names = c("Species", "Island", "Male", "Female", "Unkn.")
+  ) %>% 
+  
+  # Bold column labels
+  kable_styling(
+    full_width = FALSE, 
+    bootstrap_options = c("striped", "hover"), 
+    font_size = 14
+  ) %>% 
+  
+  # Italicize species names in row groups
+  column_spec(1, italic = TRUE)
+```
+
+## Visualización de variables por sexo
+
+```{r}
+#| label: fig-MeasureExploration
+#| message: false
+#| warning: false
+data(penguins)
+
+penguins%>%
+  filter(!is.na(sex)) %>%
+  select(-c(island, year)) %>%
+  ggpairs(
+    columns = 2:5,
+    mapping = aes(color = sex, fill = species), 
+    upper = list(continuous = wrap("points", shape = 21, size = 2.5, mapping = aes( fill = sex), color = "black")),  
+    diag = list(continuous = "blank"), 
+    lower = list(continuous = wrap("points", size = 2.5, alpha = 0.8)) 
+  ) +
+  theme_bw() +
+  labs(title = "Palmer Penguins: Morphological Measurements") +
+  theme(legend.position = "bottom")
+
+```

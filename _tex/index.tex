@@ -177,9 +177,10 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={La Palma Earthquakes},
-  pdfauthor={Steve Purves; Rowan Cockett},
-  pdfkeywords={La Palma, Earthquakes},
+  pdftitle={Diferencias sexuales en especies de pingüinos de la Antártida: un análisis basado en características morfológicas},
+  pdfauthor={Juana Perez Rodríguez; Simona Cruz García},
+  pdfkeywords={Dimorfismo sexual, Pingüinos
+Pygoscelis, Morfología, regresión logística, Modelos de clasificación},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -193,157 +194,336 @@
 \draftfalse
 
 \begin{document}
-\title{La Palma Earthquakes}
+\title{Diferencias sexuales en especies de pingüinos de la Antártida: un
+análisis basado en características morfológicas}
 
-\authors{Steve Purves\affil{1}, Rowan Cockett\affil{1}}
-\affiliation{1}{Curvenote, }
-\correspondingauthor{Steve Purves}{steve@curvenote.com}
+\authors{Juana Perez Rodríguez\affil{1}, Simona Cruz García\affil{1}}
+\affiliation{1}{ENES Unidad Morelia, }
+\correspondingauthor{Juana Perez
+Rodríguez}{jperezrodriguez@enesmorelia.com}
 
 
 \begin{abstract}
-In September 2021, a significant jump in seismic activity on the island
-of La Palma (Canary Islands, Spain) signaled the start of a volcanic
-crisis that still continues at the time of writing. Earthquake data is
-continually collected and published by the Instituto Geográphico
-Nacional (IGN). \ldots{}
+El dimorfismo sexual es una consecuencia evolutiva de la selección
+sexual y natural, manifestándose en diferencias morfológicas entre
+machos y hembras de una misma especie (Darwin, 1871). En este estudio,
+se evaluó si las características morfológicas pueden predecir el sexo de
+tres especies de pingüinos (\emph{Pygoscelis}) en el Archipiélago
+Palmer, Antártida. Se analizaron datos de longitud y profundidad del
+pico, longitud de la aleta y masa corporal mediante modelos de regresión
+logística y bosque aleatorio (Hastie et al., 2009). La regresión
+logística tuvo un mejor rendimiento, con una exactitud de 0.857 y un
+área bajo la curva ROC de 0.938. La profundidad del pico fue el mejor
+predictor del sexo, con un aumento de 1 mm asociado con una probabilidad
+casi cuatro veces mayor de que el individuo sea macho (Williams \&
+Croxall, 2005). Este estudio demuestra que las características del pico
+son indicadores confiables del sexo en pingüinos \emph{Pygoscelis},
+facilitando estudios ecológicos y de comportamiento en estas especies.
 \end{abstract}
 
-\section*{Plain Language Summary}
-Earthquake data for the island of La Palma from the September 2021
-eruption is found \ldots{}
 
 
 
 
-\section{Introduction}\label{introduction}
+\subsection{Introducción}\label{introducciuxf3n}
 
-\textsubscript{Source:
-\href{https://sofiazorrilla.github.io/articulo_ping-inos/index-preview.html}{Article
-Notebook}}
+El dimorfismo sexual, o las diferencias morfológicas entre machos y
+hembras de una misma especie, es una consecuencia evolutiva de la
+selección sexual y la selección natural (Darwin, 1871; Trivers, 1972).
+Estas diferencias pueden manifestarse en tamaño, coloración,
+comportamiento o características físicas específicas(Gorman et al.,
+2014). Comprender las causas y consecuencias del dimorfismo sexual es
+importante para entender la ecología, el comportamiento reproductivo y
+la evolución de las especies (Andersson, 1994).
 
-\phantomsection\label{cell-fig-timeline}
+Sin embargo, sigue siendo incierto si es posible inferir el sexo de
+ciertas especies animales a partir de sus características morfológicas.
+Este estudio explora esta cuestión mediante el análisis de datos
+morfológicos de tres especies de pingüinos (\emph{Pygoscelis})
+recolectados en tres islas del Archipiélago Palmer, Antártida (Ainley,
+2002). Este análisis busca determinar si las medidas corporales, como la
+longitud y profundidad del pico, la longitud de la aleta y la masa
+corporal, pueden predecir el sexo de los pingüinos.
+
+\subsection{Métodos}\label{muxe9todos}
+
+\subsubsection{Recolección de
+muestras}\label{recolecciuxf3n-de-muestras}
+
+El trabajo de campo fue realizado en el Archipiélago Palmer, al oeste de
+la Península Antártica, cerca de la Isla Anvers (64°46′S, 64°03′W),
+durante los veranos australes de 2007/08, 2008/09 y 2009/10 (Wilson et
+al., 2018). Las muestras fueron recolectadas en tres islas específicas
+Figura~\ref{fig-mapa-distribucion}:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Biscoe Island} (64°48′S, 63°46′W)\\
+\item
+  \textbf{Torgersen Island} (64°46′S, 64°04′W)\\
+\item
+  \textbf{Dream Island} (64°43′S, 64°13′W)
+\end{itemize}
+
 \begin{figure}[H]
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-timeline-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-latex/notebooks-ExploracionDatos-fig-mapa-distribucion-output-2.png}}
 
 }
 
-\caption{\label{fig-timeline}Timeline of recent earthquakes on La Palma}
+\caption{\label{fig-mapa-distribucion}}
 
 \end{figure}%
 
 \textsubscript{Source:
-\href{https://sofiazorrilla.github.io/articulo_ping-inos/index-preview.html}{Article
-Notebook}}
+\href{https://sofiazorrilla.github.io/articulo_ping-inos/notebooks/ExploracionDatos-preview.html\#cell-fig-mapa-distribucion}{Exploración
+de datos}}
 
-\textsubscript{Source:
-\href{https://sofiazorrilla.github.io/articulo_ping-inos/index-preview.html}{Article
-Notebook}}
+Cada temporada, se recolectaron datos de 30 nidos de pingüinos Adelia,
+distribuidos equitativamente entre las tres islas (10 nidos por isla).
+Los datos de 30 nidos de pingüinos gentoo se recolectaron únicamente en
+Biscoe Island, mientras que los datos de 15 nidos de pingüinos barbijo
+fueron recolectados en Dream Island Tabla~\ref{tbl-sampling}.
 
-Based on data up to and including 1971, eruptions on La Palma happen
-every 79.8 years on average.
+\begin{longtable}[]{@{}lllll@{}}
 
-Studies of the magma systems feeding the volcano, such as Marrero et al.
-(2019), have proposed that there are two main magma reservoirs feeding
-the Cumbre Vieja volcano; one in the mantle (30-40km depth) which
-charges and in turn feeds a shallower crustal reservoir (10-20km depth).
+\caption{\label{tbl-sampling}Summary of Penguin Counts by Species,
+Island, and Sex}
 
-Eight eruptions have been recorded since the late 1400s
-(Figure~\ref{fig-timeline}).
+\tabularnewline
 
-Data and methods are discussed in Section~\ref{sec-data-methods}.
-
-Let \(x\) denote the number of eruptions in a year. Then, \(x\) can be
-modeled by a Poisson distribution
-
-\begin{equation}\phantomsection\label{eq-poisson}{
-p(x) = \frac{e^{-\lambda} \lambda^{x}}{x !}
-}\end{equation}
-
-where \(\lambda\) is the rate of eruptions per year. Using
-Equation~\ref{eq-poisson}, the probability of an eruption in the next
-\(t\) years can be calculated.
-
-\begin{longtable}[]{@{}ll@{}}
-\caption{Recent historic eruptions on La
-Palma}\label{tbl-history}\tabularnewline
 \toprule\noalign{}
-Name & Year \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-Name & Year \\
+Species & Island & Male & Female & Unkn. \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Current & 2021 \\
-Teneguía & 1971 \\
-Nambroque & 1949 \\
-El Charco & 1712 \\
-Volcán San Antonio & 1677 \\
-Volcán San Martin & 1646 \\
-Tajuya near El Paso & 1585 \\
-Montaña Quemada & 1492 \\
+P. adelie & Torgersen & 23 & 24 & 5 \\
+P. adelie & Biscoe & 22 & 22 & \\
+P. adelie & Dream & 28 & 27 & 1 \\
+P. gentoo & Biscoe & 61 & 58 & 5 \\
+P. chinstrap & Dream & 34 & 34 & \\
+
 \end{longtable}
 
-Table~\ref{tbl-history} summarises the eruptions recorded since the
-colonization of the islands by Europeans in the late 1400s.
+\textsubscript{Source:
+\href{https://sofiazorrilla.github.io/articulo_ping-inos/notebooks/ExploracionDatos-preview.html\#cell-tbl-sampling}{Exploración
+de datos}}
 
-\begin{figure}
+Las aves fueron capturadas en la etapa de un huevo, y se extrajo una
+muestra de sangre (\textasciitilde1 ml) de la vena braquial utilizando
+una jeringa estéril de 3 ml con aguja heparinizada (Lynch \& Schwaller,
+2012). Las muestras de sangre fueron almacenadas en microtubos de 1.5 ml
+y congeladas a -80°C para su análisis molecular y de isotopos estables.
+Además, se registraron las siguientes medidas corporales:
 
-\centering{
-
-\pandocbounded{\includegraphics[keepaspectratio]{images/la-palma-map.png}}
-
-}
-
-\caption{\label{fig-map}Map of La Palma}
-
-\end{figure}%
-
-La Palma is one of the west most islands in the Volcanic Archipelago of
-the Canary Islands (Figure~\ref{fig-map}).
+\begin{itemize}
+\tightlist
+\item
+  Longitud y profundidad del pico (mediante calibradores digitales ±0.1
+  mm)\\
+\item
+  Longitud de la aleta (mediante regla ±1 mm)\\
+\item
+  Masa corporal (mediante balanzas de Pesola de 5 kg ±25 g o 10 kg ±50
+  g)
+\end{itemize}
 
 \begin{figure}[H]
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-latex/notebooks-explore-earthquakes-fig-spatial-plot-output-1.png}}
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-latex/notebooks-ExploracionDatos-fig-measureexploration-output-2.png}}
 
 }
 
-\caption{\label{fig-spatial-plot}Locations of earthquakes on La Palma
-since 2017}
+\caption{\label{fig-measureexploration}}
 
 \end{figure}%
 
 \textsubscript{Source:
-\href{https://sofiazorrilla.github.io/articulo_ping-inos/notebooks/explore-earthquakes-preview.html\#cell-fig-spatial-plot}{Explore
-Earthquakes}}
+\href{https://sofiazorrilla.github.io/articulo_ping-inos/notebooks/ExploracionDatos-preview.html\#cell-fig-MeasureExploration}{Exploración
+de datos}}
 
-Figure~\ref{fig-spatial-plot} shows the location of recent Earthquakes
-on La Palma.
+\subsubsection{Análisis estadístico}\label{anuxe1lisis-estaduxedstico}
 
-\section{Data \& Methods}\label{sec-data-methods}
+Se construyeron modelos de regresión logística y de bosque aleatorio
+para clasificar el sexo de los pingüinos basándose en las
+características morfológicas (Hastie et al., 2009). La estructura de los
+modelos fue la siguiente:
 
-\section{Conclusion}\label{conclusion}
+\begin{itemize}
+\item
+  \textbf{Regresión logística}:\\
+  Modelo de clasificación utilizando la función \texttt{logistic\_reg()}
+  en R, con el motor \texttt{glm}.
+\item
+  \textbf{Bosque aleatorio}:\\
+  Modelo de clasificación utilizando \texttt{rand\_forest()} en R, con
+  el motor \texttt{ranger}.
+\end{itemize}
 
-\section*{References}\label{references}
-\addcontentsline{toc}{section}{References}
+Se realizaron remuestreos mediante \texttt{bootstrapping} para evaluar
+la estabilidad de los modelos y se midió la precisión mediante la
+métrica de exactitud (\texttt{accuracy}) y el área bajo la curva ROC
+(\texttt{roc\_auc}) (Breiman, 2001).
+
+\subsection{Resultados}\label{resultados}
+
+Los resultados muestran que el modelo de regresión logística tuvo un
+mejor rendimiento que el modelo de bosque aleatorio. La exactitud y el
+área bajo la curva ROC fueron las siguientes:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Exactitud}: 0.857\\
+\item
+  \textbf{ROC AUC}: 0.9382086
+\end{itemize}
+
+El análisis de razones de momios (\texttt{odds\ ratio}) indicó que la
+mayor asociación con el sexo fue para la profundidad del pico, seguida
+por la longitud del pico (Williams \& Croxall, 2005). Un aumento de 1 mm
+en la profundidad del pico se asocia con una probabilidad casi cuatro
+veces mayor de que el individuo sea macho. Por otro lado, la longitud de
+la aleta no mostró evidencia significativa de diferenciación entre
+machos y hembras cuando se controlaron las otras variables
+Tabla~\ref{tbl-res}.
+
+\begin{longtable}[]{@{}lrrrr@{}}
+
+\caption{\label{tbl-res}Logistic Regression Classigication Model
+Coefficients}
+
+\tabularnewline
+
+\toprule\noalign{}
+Term & Estimate & Std.error & Statistic & P.value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(Intercept) & 0.000 & 19.620 & -5.309 & 0.000 \\
+speciesChinstrap & 0.000 & 2.344 & -3.794 & 0.000 \\
+speciesGentoo & 0.000 & 3.753 & -3.032 & 0.002 \\
+bill\_length\_mm & 1.908 & 0.180 & 3.597 & 0.000 \\
+bill\_depth\_mm & 8.363 & 0.478 & 4.448 & 0.000 \\
+flipper\_length\_mm & 1.058 & 0.061 & 0.926 & 0.355 \\
+body\_mass\_g & 1.008 & 0.002 & 4.591 & 0.000 \\
+
+\end{longtable}
+
+\textsubscript{Source:
+\href{https://sofiazorrilla.github.io/articulo_ping-inos/notebooks/ClassificationModel-preview.html\#cell-tbl-res}{Classification
+of Antarctic Penguins}}
+
+\textbf{Cuadro 1:}
+
+Los modelos de regresión logística son muy útiles.
+
+\subsection{Discusión}\label{discusiuxf3n}
+
+La capacidad de inferir el sexo de los pingüinos a partir de datos
+morfológicos tiene importantes implicaciones ecológicas y evolutivas
+(Croxall, 1995). La diferenciación sexual basada en la morfología puede
+estar relacionada con la selección sexual o con la adaptación a
+diferentes roles ecológicos. La profundidad y longitud del pico pueden
+reflejar diferencias en la dieta o en el comportamiento reproductivo
+entre machos y hembras (Polito et al., 2016).
+
+Además, la posibilidad de determinar el sexo mediante datos morfológicos
+facilita estudios sobre dinámica poblacional y comportamiento
+reproductivo, sin la necesidad de técnicas invasivas de determinación de
+sexo (Polito et al., 2016).
+
+\subsection{Conclusión}\label{conclusiuxf3n}
+
+Este estudio demuestra que las características del pico son indicadores
+confiables del sexo en especies de pingüinos \emph{Pygoscelis}. La
+regresión logística proporcionó una alta exactitud y poder predictivo.
+La capacidad de inferir el sexo a partir de datos morfológicos ofrece
+nuevas oportunidades para estudios ecológicos y de comportamiento en
+poblaciones de pingüinos en la Antártida (Trivelpiece et al., 2011).
+\#\# References \{.unnumbered\}
+
+\subsection{References}\label{references}
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
 \vspace{1em}
 
-\bibitem[\citeproctext]{ref-marrero2019}
-Marrero, J., García, A., Berrocoso, M., Llinares, Á., Rodríguez-Losada,
-A., \& Ortiz, R. (2019). Strategies for the development of volcanic
-hazard maps in monogenetic volcanic fields: The example of {La} {Palma}
-({Canary} {Islands}). \emph{Journal of Applied Volcanology}, \emph{8}.
-\url{https://doi.org/10.1186/s13617-019-0085-5}
+\bibitem[\citeproctext]{ref-ainley2002}
+Ainley, D. G. (2002). \emph{The ad{é}lie penguin: Bellwether of climate
+change}. New York: Columbia University Press.
+
+\bibitem[\citeproctext]{ref-andersson1994}
+Andersson, M. (1994). \emph{Sexual selection}. Princeton: Princeton
+University Press.
+
+\bibitem[\citeproctext]{ref-breiman2001}
+Breiman, L. (2001). Random forests. \emph{Machine Learning},
+\emph{45}(1), 5--32. \url{https://doi.org/10.1023/A:1010933404324}
+
+\bibitem[\citeproctext]{ref-croxall1995}
+Croxall, J. P. (1995). Sexual size dimorphism and breeding biology in
+southern giant petrels, macronectes giganteus. \emph{Oikos},
+\emph{73}(1), 79--87. \url{https://doi.org/10.2307/3545728}
+
+\bibitem[\citeproctext]{ref-darwin1871}
+Darwin, C. (1871). \emph{The descent of man, and selection in relation
+to sex}. London: John Murray.
+
+\bibitem[\citeproctext]{ref-gorman2014}
+Gorman, K. B., Williams, T. D., \& Fraser, W. R. (2014). Ecological
+Sexual Dimorphism and Environmental Variability within a Community of
+Antarctic Penguins (Genus Pygoscelis). \emph{PLoS ONE}, \emph{9}(3),
+e90081. \url{https://doi.org/10.1371/journal.pone.0090081}
+
+\bibitem[\citeproctext]{ref-hastie2009}
+Hastie, T., Tibshirani, R., \& Friedman, J. (2009). \emph{The elements
+of statistical learning: Data mining, inference, and prediction} (2nd
+ed.). New York: Springer.
+
+\bibitem[\citeproctext]{ref-lynch2012}
+Lynch, H. J., \& Schwaller, M. R. (2012). Detection, differentiation,
+and abundance estimation of penguin species by high-resolution satellite
+imagery. \emph{Polar Biology}, \emph{35}(6), 963--968.
+\url{https://doi.org/10.1007/s00300-011-1138-3}
+
+\bibitem[\citeproctext]{ref-polito2016}
+Polito, M. J., Hinke, J. T., Hart, T., Santos, M., Houghton, L. A., \&
+Thorrold, S. R. (2016). Stable isotope analyses of feather amino acids
+identify penguin migration strategies at ocean basin scales.
+\emph{Biology Letters}, \emph{12}(8), 20160024.
+\url{https://doi.org/10.1098/rsbl.2016.0024}
+
+\bibitem[\citeproctext]{ref-trivelpiece2011}
+Trivelpiece, W. Z., Hinke, J. T., Miller, A. K., Reiss, C. S.,
+Trivelpiece, S. G., \& Watters, G. M. (2011). Variability in krill
+biomass links harvesting and climate warming to penguin population
+changes in antarctica. \emph{Proceedings of the National Academy of
+Sciences}, \emph{108}(18), 7625--7628.
+\url{https://doi.org/10.1073/pnas.1016560108}
+
+\bibitem[\citeproctext]{ref-trivers1972}
+Trivers, R. L. (1972). Parental investment and sexual selection.
+\emph{Sexual Selection and the Descent of Man}, 136--179.
+
+\bibitem[\citeproctext]{ref-williams2005}
+Williams, T. D., \& Croxall, J. P. (2005). Morphometric sex
+identification of pygoscelis penguins: Not as easy as it looks.
+\emph{Marine Ecology Progress Series}, \emph{296}, 141--150.
+\url{https://doi.org/10.3354/meps296141}
+
+\bibitem[\citeproctext]{ref-wilson2018}
+Wilson, K. J., Waugh, S. M., Taylor, R. H., \& Southey, I. (2018).
+Long-term monitoring of adélie penguin population change at the palmer
+archipelago: Methods and data quality. \emph{Antarctic Science},
+\emph{30}(3), 151--163. \url{https://doi.org/10.1017/S0954102017000451}
 
 \end{CSLReferences}
 
